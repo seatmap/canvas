@@ -34,37 +34,6 @@
 <body>
 <div class="seats_container">
     <div class="buttons">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <button class="btn btn-default btn-block" id="zoomout-button">Zoom-out</button>
-                </div>
-                <div class="col">
-                    <button class="btn btn-default btn-block" id="best-find-start">Best Available Search</button>
-                </div>
-                <div class="col">
-                    <button class="btn btn-default btn-block" id="best-find-cancel">Best Available Cancel</button>
-                </div>
-                <div class="col">
-                    <button class="btn btn-default btn-block" id="get-data">Get Selected Seat(s) Json</button>
-                </div>
-                <div class="col">
-                    <button class="btn btn-default btn-block" id="set-filter">Filter On</button>
-                </div>
-                <div class="col">
-                    <button class="btn btn-default btn-block" id="set-filter-disable">Filter of</button>
-                </div>
-                <div class="col">
-                    <button class="btn btn-default btn-block zoom-to-block" block-id="1">Zoom Block 1</button>
-                </div>
-                <div class="col">
-                    <button class="btn btn-default btn-block zoom-to-block" block-id="2">Zoom Block 2</button>
-                </div>
-                <div class="col">
-                    <button class="btn btn-default btn-block zoom-to-block" block-id="3">Zoom Block 3</button>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -73,7 +42,7 @@
 <!-- jQuery first then Bootstrap JS -->
 <script src="jquery.min.js" crossorigin="anonymous"></script>
 
-<script type="text/javascript" src="/build/seatmap.canvas.js"></script>
+<script type="text/javascript" src="/seatmap.canvas.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -107,14 +76,13 @@
         let getDummyBlocks = function (count, cb) {
             $.getJSON("/data/small.json", function (result) {
                 let blocks = [];
-                console.log("getting", block_i, count);
+                // console.log("getting", block_i, count);
                 for (let i = 0; i < count; i++) {
 
                     let labels = [];
                     let label_index = {};
 
                     let color = block_colors[block_i % block_colors.length];
-                    console.log(color)
 
                     //x_gap = 890;
 
