@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://alisaitteke.github.io/seatmap-canvas/bootstrap.min.css" crossorigin="anonymous">
 
     <title>Hello, world!</title>
 
@@ -42,7 +42,7 @@
 <!-- jQuery first then Bootstrap JS -->
 <script src="jquery.min.js" crossorigin="anonymous"></script>
 
-<script type="text/javascript" src="/seatmap.canvas.js"></script>
+<script type="text/javascript" src="https://alisaitteke.github.io/seatmap-canvas/seatmap.canvas.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -74,7 +74,7 @@
         let block_i = 0;
 
         let getDummyBlocks = function (count, cb) {
-            $.getJSON("/data/small.json", function (result) {
+            $.getJSON("https://alisaitteke.github.io/seatmap-canvas/data/small.json", function (result) {
                 let blocks = [];
                 // console.log("getting", block_i, count);
                 for (let i = 0; i < count; i++) {
