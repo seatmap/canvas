@@ -1,5 +1,4 @@
 {
-  "totalItemCount": 0,
   "seats": [
     {
       "isSold": true,
@@ -1301,7 +1300,5 @@
       "blockId": 0,
       "refChannelGroupId": 25351
     }
-  ],
-  "isError": false,
-  "resultCode": 0
+  ]
 }
