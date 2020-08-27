@@ -58,7 +58,6 @@
         }
 
 
-
         .basket-item-title {
             display: inline-block;
             width: 75px;
@@ -85,6 +84,7 @@
         .basket-total-title {
             float: left;
         }
+
         .basket-total-prive {
             float: right;
         }
@@ -163,27 +163,36 @@
             basketCalculate()
         });
 
+
+        let basketItemClick = function (e) {
+            var seatId = parseInt($(this).attr('seat-id'));
+            var blockId = parseInt($(this).attr('block-id'));
+            var seat = seatmap.data.getSeat(seatId,blockId)
+            console.log(seat)
+        };
+
         var basketCalculate = function () {
             var selectedSeats = seatmap.data.getSelectedSeats();
             var basketItems = [];
             var basketTotal = 0;
             selectedSeats.forEach(function (item) {
-                basketTotal+=defaultPrice;
-                var li = `<div class="basket-item">
+                basketTotal += defaultPrice;
+                var li = `<div class="basket-item" seat-id="${item.id}" block-id="${item.block.id}">
                     <div class="basket-item-title">${item.title}</div>
-                    <div class="basket-item-price">${new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'GBP' }).format(defaultPrice)}</div>
+                    <div class="basket-item-price">${new Intl.NumberFormat('en-IN', {style: 'currency', currency: 'GBP'}).format(defaultPrice)}</div>
                 </div>`;
                 basketItems.push(li);
             });
             if (basketItems.length) {
                 $('#basket').html(basketItems.join(''))
-                $('.basket-total-price').html(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'GBP' }).format(basketTotal))
+                $('.basket-total-price').html(new Intl.NumberFormat('en-IN', {style: 'currency', currency: 'GBP'}).format(basketTotal))
             } else {
 
                 $('#basket').html(`<div class="empty-basket-message">Basket is empty</div>`)
 
                 $('.basket-total-price').html(`£0`)
             }
+            $(".basket-item").on("click", basketItemClick);
 
         };
 
@@ -198,8 +207,8 @@
         $("#get-selected-seats").on("click", function (e) {
             e.preventDefault();
             var selectedSeats = seatmap.data.getSelectedSeats();
-
         });
+
 
         let x_gap = 0;
         let y_gap = 0;
@@ -208,6 +217,7 @@
         let random_block_colors = ["#00a5ff", "#fccf4d", "#fccf4d", "#ef255f", "#2c2828", "#ff1f5a", "#fccf4d", "#ef255f"];
         let random_seat_tags = [{'disabled': true}, {'disabled': false}];
         let defaultPrice = 12.5;
+
 
         let getDummyBlocks = function (count, cb) {
             $.getJSON("data/small.json", function (result) {
