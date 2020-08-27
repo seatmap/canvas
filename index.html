@@ -33,6 +33,7 @@
 
         .seats_container_wrapper {
             height: 500px;
+            /*background: rgb(0, 165, 255);*/
         }
 
     </style>
@@ -42,12 +43,6 @@
     <div class="row">
         <div class="col">
             <button class="btn btn-default btn-block" id="zoomout-button">Zoom-out</button>
-        </div>
-        <div class="col">
-            <button class="btn btn-default btn-block" id="best-find-start">Best Available Search</button>
-        </div>
-        <div class="col">
-            <button class="btn btn-default btn-block" id="best-find-cancel">Best Available Cancel</button>
         </div>
         <div class="col">
             <button class="btn btn-default btn-block" id="get-data">Get Selected Seat(s) Json</button>
@@ -82,9 +77,18 @@
 <script type="text/javascript" src="seatmap.canvas.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        let seatmap = new SeatMapCanvas(".seats_container");
+        let seatmap = new SeatMapCanvas(".seats_container", {
+            "seat_style": {
+                "radius": 12,
+                "color": "#ceeeff",
+                "hover": "#b2d945",
+                "not_salable": "#0087d0",
+                "selected": "#b2d945",
+                "focus": "#b2d945",
+                "focus_out": "#b2d945"
+            },
+        });
         seatmap.eventManager.addEventListener("SEAT.CLICK", (seat) => {
-            console.log("seat", seat)
             if (!seat.isSelected() && seat.item.salable === true) {
                 seat.select()
             } else {
@@ -148,7 +152,7 @@
                             x: item['positionLeft'] + x_gap + 40,
                             y: item['positionTop'] + y_gap,
                             color: item.color || color || null,
-                            salable: item['isSold'] === true ? false : true,
+                            salable: (Math.ceil(Math.random() * 100)) % 2 == 1,
                             note: "note test",
                             tags: tags,
                             title: "Row: " + item.displayName + "\nLine: " + item['rowName']
