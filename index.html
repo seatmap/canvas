@@ -7,89 +7,11 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="seatmap.canvas.css" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="assets/fa/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/seatmap.canvas.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/demo.css" crossorigin="anonymous">
     <title>Seatmap | Canvas by Ali Sait TEKE</title>
 
-    <style>
-
-        .seats_container {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #fff;
-            border: 1px solid #cbcbcb;
-        }
-
-        .buttons {
-            position: absolute;
-            width: 100%;
-            left: 0;
-            top: 0;
-            z-index: 9;
-        }
-
-        .seats_container_wrapper {
-            height: 600px;
-            /*background: rgb(0, 165, 255);*/
-        }
-
-        .basket-wrapper {
-            border: 1px solid #cbcbcb;
-            border-bottom: none;
-            height: 60px;
-        }
-
-        .basket-item {
-            position: relative;
-            float: left;
-            width: 100px;
-            height: 50px;
-            border: 1px solid #b2d945;
-            margin: 5px;
-            padding: 6px;
-            font-size: 12px;
-        }
-
-        .empty-basket-message {
-            padding: 18px 0px;
-        }
-
-
-        .basket-item-title {
-            display: inline-block;
-            width: 75px;
-            white-space: nowrap;
-            overflow: hidden !important;
-            text-overflow: ellipsis;
-            line-height: 12px;
-        }
-
-        .basket-item-price {
-            line-height: 14px;
-            font-size: 14px;
-            font-weight: bold;
-
-        }
-
-        #basket-total {
-            text-align: right;
-            padding: 18px 0px;
-            width: 145px;
-            float: right;
-        }
-
-        .basket-total-title {
-            float: left;
-        }
-
-        .basket-total-prive {
-            float: right;
-        }
-
-    </style>
 </head>
 <body>
 <div class="container">
@@ -106,23 +28,14 @@
         <div class="col">
             <button class="btn btn-default btn-block" id="set-filter-disable">Filter of</button>
         </div>
-        <div class="col">
-            <button class="btn btn-default btn-block zoom-to-block" block-id="1">Zoom Block 1</button>
-        </div>
-        <div class="col">
-            <button class="btn btn-default btn-block zoom-to-block" block-id="2">Zoom Block 2</button>
-        </div>
-        <div class="col">
-            <button class="btn btn-default btn-block zoom-to-block" block-id="3">Zoom Block 3</button>
-        </div>
     </div>
     <div class="row basket-wrapper">
-        <div class="col-sm-6">
+        <div class="col-sm-9">
             <div id="basket">
 
             </div>
         </div>
-        <div class="col-sm-6 float-right">
+        <div class="col-sm-3 float-right">
             <div id="basket-total">
                 <div class="basket-total-title">Total Price</div>
                 <div class="basket-total-price"></div>
@@ -132,7 +45,7 @@
     <div class="row">
         <div class="col-sm-12 seats_container_wrapper">
             <div class="seats_container">
-                <div class="buttons">
+                <div class="block-buttons">
                 </div>
             </div>
         </div>
@@ -140,159 +53,8 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="seatmap.canvas.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        let seatmap = new SeatMapCanvas(".seats_container", {
-            "seat_style": {
-                "radius": 12,
-                "color": "#ceeeff",
-                "hover": "#b2d945",
-                "not_salable": "#0087d0",
-                "selected": "#b2d945",
-                "focus": "#b2d945",
-                "focus_out": "#b2d945"
-            },
-        });
-        seatmap.eventManager.addEventListener("SEAT.CLICK", (seat) => {
-            if (!seat.isSelected() && seat.item.salable === true) {
-                seat.select();
-            } else {
-                seat.unSelect();
-            }
-            basketCalculate()
-        });
+<script type="text/javascript" src="assets/seatmap.canvas.js"></script>
+<script type="text/javascript" src="assets/demo.js"></script>
 
-
-        let basketItemClick = function (e) {
-            var seatId = parseInt($(this).attr('seat-id'));
-            var blockId = parseInt($(this).attr('block-id'));
-            var seat = seatmap.data.getSeat(seatId,blockId)
-            console.log(seat)
-        };
-
-        var basketCalculate = function () {
-            var selectedSeats = seatmap.data.getSelectedSeats();
-            var basketItems = [];
-            var basketTotal = 0;
-            selectedSeats.forEach(function (item) {
-                basketTotal += defaultPrice;
-                var li = `<div class="basket-item" seat-id="${item.id}" block-id="${item.block.id}">
-                    <div class="basket-item-title">${item.title}</div>
-                    <div class="basket-item-price">${new Intl.NumberFormat('en-IN', {style: 'currency', currency: 'GBP'}).format(defaultPrice)}</div>
-                </div>`;
-                basketItems.push(li);
-            });
-            if (basketItems.length) {
-                $('#basket').html(basketItems.join(''))
-                $('.basket-total-price').html(new Intl.NumberFormat('en-IN', {style: 'currency', currency: 'GBP'}).format(basketTotal))
-            } else {
-
-                $('#basket').html(`<div class="empty-basket-message">Basket is empty</div>`)
-
-                $('.basket-total-price').html(`£0`)
-            }
-            $(".basket-item").on("click", basketItemClick);
-
-        };
-
-        $("#zoomout-button").on("click", function () {
-            seatmap.zoomManager.zoomToVenue();
-        });
-
-        $(".zoom-to-block").on("click", function (e) {
-            var blockId = parseInt($(this).attr('block-id'));
-            seatmap.zoomManager.zoomToBlock(blockId);
-        });
-        $("#get-selected-seats").on("click", function (e) {
-            e.preventDefault();
-            var selectedSeats = seatmap.data.getSelectedSeats();
-        });
-
-
-        let x_gap = 0;
-        let y_gap = 0;
-        let block_i = 0;
-
-        let random_block_colors = ["#00a5ff", "#fccf4d", "#fccf4d", "#ef255f", "#2c2828", "#ff1f5a", "#fccf4d", "#ef255f"];
-        let random_seat_tags = [{'disabled': true}, {'disabled': false}];
-        let defaultPrice = 12.5;
-
-
-        let getDummyBlocks = function (count, cb) {
-            $.getJSON("data/small.json", function (result) {
-                let blocks = [];
-
-                for (let i = 0; i < count; i++) {
-
-                    let labels = [];
-                    let label_index = {};
-
-                    let color = random_block_colors[block_i % random_block_colors.length];
-
-                    if (i % 2 === 0) {
-                        y_gap += 400;
-                        x_gap = 0;
-                    } else {
-                        x_gap += 400;
-                    }
-
-
-                    let seats = result.seats.map((item, index) => {
-                        if (!label_index[item['rowName']]) {
-                            var label_data = {
-                                title: item['rowName'],
-                                x: x_gap,
-                                y: item['positionTop'] + y_gap
-                            };
-                            label_index[item['rowName']] = label_data;
-                            labels.push(label_data);
-                        }
-
-                        let tags = [];
-                        if (index % 2 === 1) {
-                            tags.push("a");
-                        } else {
-                            tags.push("b");
-                        }
-                        tags.push("row_" + item.rowName);
-                        return {
-                            id: i + "-" + (index + 1),
-                            x: item['positionLeft'] + x_gap + 40,
-                            y: item['positionTop'] + y_gap,
-                            color: item.color || color || null,
-                            salable: (Math.ceil(Math.random() * 100)) % 2 == 1,
-                            note: "note test",
-                            tags: tags,
-                            title: "Row: " + item.displayName + "\nLine: " + item['rowName']
-                        }
-                    });
-
-                    let block = {
-                        "id": block_i + 1,
-                        "title": "Block " + (block_i + 1),
-                        "labels": labels,
-                        "color": color,
-                        "seats": seats
-                    };
-
-                    blocks.push(block);
-                    block_i++;
-                }
-                cb(blocks);
-
-            });
-        };
-
-        getDummyBlocks(2, (blocks) => {
-            console.log("adding blocks", blocks.length)
-            seatmap.data.addBulkBlock(blocks);
-            seatmap.zoomManager.zoomToBlock(1);
-            basketCalculate();
-        });
-
-
-    });
-</script>
 </body>
 </html>

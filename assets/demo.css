@@ -1,0 +1,135 @@
+.seats_container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border: 1px solid #cbcbcb;
+}
+
+.buttons {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 9;
+}
+
+.seats_container_wrapper {
+    height: 600px;
+    /*background: rgb(0, 165, 255);*/
+}
+
+.basket-wrapper {
+    border: 1px solid #cbcbcb;
+    border-bottom: none;
+    height: 60px;
+}
+
+.basket-item {
+    position: relative;
+    float: left;
+    width: 100px;
+    height: 50px;
+    border: 1px solid #b2d945;
+    margin: 5px;
+    padding: 6px;
+    font-size: 12px;
+}
+
+.basket-item:hover {
+    background-color: #b2d945;
+    border: 1px solid #88a635;
+}
+
+.basket-item:hover .basket-item-remove-btn {
+    display: block;
+}
+
+.basket-item .empty-basket-message {
+    padding: 18px 0px;
+}
+
+
+.basket-item .basket-item-title {
+    display: inline-block;
+    width: 75px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    line-height: 12px;
+}
+
+.basket-item .basket-item-price {
+    line-height: 14px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.basket-item .basket-item-remove-btn {
+    font-size: 12px;
+    font-family: Arial;
+    position: absolute;
+    right: 6px;
+    top: 3px;
+    display: none;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    text-align: right;
+    color: #fff;
+}
+
+.basket-item .basket-item-remove-btn:hover {
+    color: #f00;
+}
+
+
+/*BBASKET TOTAL*/
+#basket-total {
+    text-align: right;
+    padding: 18px 0px;
+    width: 145px;
+    float: right;
+}
+
+#basket-total .basket-total-title {
+    float: left;
+}
+
+#basket-total .basket-total-price {
+    float: right;
+    font-weight: bold;
+}
+
+/*BLOCK BUTTONS*/
+.block-buttons {
+    position: absolute;
+    left: 18px;
+    bottom: 64px;
+    z-index: 9;
+}
+
+.block-buttons .block-btn {
+    position: relative;
+    background-color: #2aa198;
+    padding: 6px 18px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.3);
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-bottom: 3px;
+    user-select: none;
+}
+
+.block-buttons .block-btn:hover {
+    border-color: rgba(0,0,0,0.5);
+}
+.block-buttons .seat-count {
+    font-size: 11px;
+    padding-left: 3px;
+}
