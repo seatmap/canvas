@@ -32,8 +32,61 @@
         }
 
         .seats_container_wrapper {
-            height: 500px;
+            height: 600px;
             /*background: rgb(0, 165, 255);*/
+        }
+
+        .basket-wrapper {
+            border: 1px solid #cbcbcb;
+            border-bottom: none;
+            height: 60px;
+        }
+
+        .basket-item {
+            position: relative;
+            float: left;
+            width: 100px;
+            height: 50px;
+            border: 1px solid #b2d945;
+            margin: 5px;
+            padding: 6px;
+            font-size: 12px;
+        }
+
+        .empty-basket-message {
+            padding: 18px 0px;
+        }
+
+
+
+        .basket-item-title {
+            display: inline-block;
+            width: 75px;
+            white-space: nowrap;
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+            line-height: 12px;
+        }
+
+        .basket-item-price {
+            line-height: 14px;
+            font-size: 14px;
+            font-weight: bold;
+
+        }
+
+        #basket-total {
+            text-align: right;
+            padding: 18px 0px;
+            width: 145px;
+            float: right;
+        }
+
+        .basket-total-title {
+            float: left;
+        }
+        .basket-total-prive {
+            float: right;
         }
 
     </style>
@@ -45,7 +98,7 @@
             <button class="btn btn-default btn-block" id="zoomout-button">Zoom-out</button>
         </div>
         <div class="col">
-            <button class="btn btn-default btn-block" id="get-data">Get Selected Seat(s) Json</button>
+            <button class="btn btn-default btn-block" id="get-selected-seats">Get Selected Seat(s) Json</button>
         </div>
         <div class="col">
             <button class="btn btn-default btn-block" id="set-filter">Filter On</button>
@@ -61,6 +114,19 @@
         </div>
         <div class="col">
             <button class="btn btn-default btn-block zoom-to-block" block-id="3">Zoom Block 3</button>
+        </div>
+    </div>
+    <div class="row basket-wrapper">
+        <div class="col-sm-6">
+            <div id="basket">
+
+            </div>
+        </div>
+        <div class="col-sm-6 float-right">
+            <div id="basket-total">
+                <div class="basket-total-title">Total Price</div>
+                <div class="basket-total-price"></div>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -90,25 +156,58 @@
         });
         seatmap.eventManager.addEventListener("SEAT.CLICK", (seat) => {
             if (!seat.isSelected() && seat.item.salable === true) {
-                seat.select()
+                seat.select();
             } else {
-                seat.unSelect()
+                seat.unSelect();
+            }
+            basketCalculate()
+        });
+
+        var basketCalculate = function () {
+            var selectedSeats = seatmap.data.getSelectedSeats();
+            var basketItems = [];
+            var basketTotal = 0;
+            selectedSeats.forEach(function (item) {
+                basketTotal+=defaultPrice;
+                var li = `<div class="basket-item">
+                    <div class="basket-item-title">${item.title}</div>
+                    <div class="basket-item-price">${new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'GBP' }).format(defaultPrice)}</div>
+                </div>`;
+                basketItems.push(li);
+            });
+            if (basketItems.length) {
+                $('#basket').html(basketItems.join(''))
+                $('.basket-total-price').html(new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'GBP' }).format(basketTotal))
+            } else {
+
+                $('#basket').html(`<div class="empty-basket-message">Basket is empty</div>`)
+
+                $('.basket-total-price').html(`£0`)
             }
 
-        });
+        };
 
         $("#zoomout-button").on("click", function () {
             seatmap.zoomManager.zoomToVenue();
         });
 
-        $(".zoom-to-block").on("click", function (a) {
+        $(".zoom-to-block").on("click", function (e) {
             var blockId = parseInt($(this).attr('block-id'));
             seatmap.zoomManager.zoomToBlock(blockId);
+        });
+        $("#get-selected-seats").on("click", function (e) {
+            e.preventDefault();
+            var selectedSeats = seatmap.data.getSelectedSeats();
+
         });
 
         let x_gap = 0;
         let y_gap = 0;
         let block_i = 0;
+
+        let random_block_colors = ["#00a5ff", "#fccf4d", "#fccf4d", "#ef255f", "#2c2828", "#ff1f5a", "#fccf4d", "#ef255f"];
+        let random_seat_tags = [{'disabled': true}, {'disabled': false}];
+        let defaultPrice = 12.5;
 
         let getDummyBlocks = function (count, cb) {
             $.getJSON("data/small.json", function (result) {
@@ -119,7 +218,7 @@
                     let labels = [];
                     let label_index = {};
 
-                    let color = "#00a5ff";
+                    let color = random_block_colors[block_i % random_block_colors.length];
 
                     if (i % 2 === 0) {
                         y_gap += 400;
@@ -178,6 +277,8 @@
         getDummyBlocks(2, (blocks) => {
             console.log("adding blocks", blocks.length)
             seatmap.data.addBulkBlock(blocks);
+            seatmap.zoomManager.zoomToBlock(1);
+            basketCalculate();
         });
 
 
