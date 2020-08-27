@@ -1,3 +1,9 @@
+.logo-wrapper {
+    border: 1px solid #cbcbcb;
+    padding: 12px 0;
+    margin-top: 18px;
+}
+
 .seats_container {
     position: absolute;
     left: 0;
@@ -16,9 +22,22 @@
     z-index: 9;
 }
 
+.header-title {
+    text-align: left;
+}
+
+.api-buttons-wrapper .btn-group {
+    float: right;
+}
+
 .seats_container_wrapper {
-    height: 600px;
+    /*height: 500px;*/
+
     /*background: rgb(0, 165, 255);*/
+}
+
+.seats_container {
+    height: 650px;
 }
 
 .basket-wrapper {

@@ -59,9 +59,11 @@ $(document).ready(function () {
 
     };
 
-    $("#zoomout-button").on("click", function () {
+    $(".btn-zoom-out").on("click", function () {
         seatmap.zoomManager.zoomToVenue();
     });
+
+
 
     $(".zoom-to-block").on("click", function (e) {
         let blockId = parseInt($(this).attr('block-id'));
