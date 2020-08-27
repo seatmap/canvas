@@ -72,6 +72,19 @@ $(document).ready(function () {
         let selectedSeats = seatmap.data.getSelectedSeats();
     });
 
+    $("#filter-on").on("click", function (a) {
+        var blocks = seatmap.data.getBlocks().forEach(block => {
+            block.seats.forEach(seat => {
+                // console.log(seat.tags)
+                if (seat.tags.indexOf('disabled') > -1) {
+                    seat.selectable = false;
+                    seat.salable = false;
+                    seat.svg.update()
+                }
+            })
+        });
+    });
+
 
     let x_gap = 0;
     let y_gap = 0;

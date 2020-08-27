@@ -25,6 +25,7 @@
     border: 1px solid #cbcbcb;
     border-bottom: none;
     height: 60px;
+    margin-top: 18px;
 }
 
 .basket-item {
@@ -45,10 +46,6 @@
 
 .basket-item:hover .basket-item-remove-btn {
     display: block;
-}
-
-.basket-item .empty-basket-message {
-    padding: 18px 0px;
 }
 
 
@@ -85,6 +82,14 @@
     color: #f00;
 }
 
+#basket {
+    user-select: none;
+}
+
+#basket .empty-basket-message {
+    padding: 18px 0px;
+}
+
 
 /*BBASKET TOTAL*/
 #basket-total {
@@ -117,7 +122,7 @@
     padding: 6px 18px;
     border-width: 2px;
     border-style: solid;
-    border-color: rgba(0,0,0,0.3);
+    border-color: rgba(0, 0, 0, 0.3);
     color: #fff;
     font-size: 12px;
     cursor: pointer;
@@ -127,9 +132,12 @@
 }
 
 .block-buttons .block-btn:hover {
-    border-color: rgba(0,0,0,0.5);
+    border-color: rgba(0, 0, 0, 0.5);
 }
+
 .block-buttons .seat-count {
     font-size: 11px;
     padding-left: 3px;
 }
+
+
